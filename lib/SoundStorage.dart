@@ -9,6 +9,22 @@ class SoundStorage{
 //    return new Future(()=>'S');
 //  }
 
+  final soundAssetPath = <String>[
+    'assets/sounds/short.wav',
+    'assets/sounds/middle.wav',
+    'assets/sounds/long.wav'
+  ];
+
+  Future<List<String>> loadSounds() async{
+    List<String> filePaths = new List<String>();
+    await Future.forEach(soundAssetPath, (assetPath) async {
+      final path = await getSoundPath(assetPath);
+      filePaths.add(path);
+      print('Sound $path added');
+    });
+    return filePaths;
+  }
+
   Future<String> getSoundPath(String assetPath) async{
     return await _assetPathToFilePath(assetPath);
   }

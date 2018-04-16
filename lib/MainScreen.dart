@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_soundboard/ISoundPlayer.dart';
 import 'package:flutter_soundboard/SoundPlayer.dart';
@@ -13,59 +11,33 @@ class MainScreen extends StatefulWidget{
 
 class MainScreenState extends State<StatefulWidget>{
 
-
-
-  final soundAssetPath = <String>[
-    'assets/sounds/short.wav',
-    'assets/sounds/middle.wav',
-    'assets/sounds/long.wav'
-  ];
-  List<String> soundFilePath;
-
   ISoundPlayer player;
-  SoundStorage storage;
 
-  Future _loadSound() async{
-    return await Future.forEach(soundAssetPath, (assetPath) async {
-      final filePath = await storage.getSoundPath(assetPath);
-      soundFilePath.add(filePath);
-      print('Sound $filePath added');
-    });
-  }
+  List<String> soundFilePath;
 
   @override
   void initState() {
     super.initState();
-    soundFilePath = new List<String>();
     player = new SoundPlayer();
-
-    storage = new SoundStorage();
-  }
-
-  Widget getBox(){
-    return new DecoratedBox(
-      decoration: new BoxDecoration(
-        image: new DecorationImage(
-          image: new AssetImage('assets/images/short.png'),
-        ),
-      ),
-    );
   }
 
   Widget getFuture(){
-    return new FutureBuilder(
-      future: _loadSound(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+    return new FutureBuilder<List<String>>(
+      future: new SoundStorage().loadSounds(),
+      builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+
         switch (snapshot.connectionState) {
           case ConnectionState.waiting: return new Text('Awaiting result...');
           default:
             if (snapshot.hasError)
               return new Text('Error: ${snapshot.error}');
             else{
+              soundFilePath = snapshot.requireData;
               print('Loading completed. ${soundFilePath.length} sounds loaded');
               return getLoadedBody();
             }
         }
+
       },
     );
   }
@@ -86,16 +58,20 @@ class MainScreenState extends State<StatefulWidget>{
 
   Widget getLoadedBody(){
 
-    return new Column(children: <Widget>[
+    final space = Padding(padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 32.0));
 
+    return new Column(children: <Widget>[
+      space,
       new FlatButton(
               onPressed: () => player.play(soundFilePath[0]),
               child: new Image(image: new AssetImage('assets/images/short.png'))
       ),
+      space,
       new FlatButton(
               onPressed: () => player.play(soundFilePath[1]),
               child: new Image(image: new AssetImage('assets/images/middle.png'))
       ),
+      space,
       new FlatButton(
               onPressed: () => player.play(soundFilePath[2]),
               child: new Image(image: new AssetImage('assets/images/long.png'))
