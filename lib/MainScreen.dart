@@ -3,6 +3,7 @@ import 'package:flutter_soundboard/Clip.dart';
 import 'package:flutter_soundboard/ISoundPlayer.dart';
 import 'package:flutter_soundboard/SoundPlayer.dart';
 import 'package:flutter_soundboard/SoundStorage.dart';
+import 'package:flutter_soundboard/StereoSoundPlayer.dart';
 
 class MainScreen extends StatefulWidget{
 
@@ -18,19 +19,21 @@ class MainScreenState extends State<StatefulWidget>{
 
   ISoundPlayer player;
   SoundStorage storage;
+  String soundpath;
 
   @override
   void initState() {
     super.initState();
     isLoaded = false;
-    player = new SoundPlayer();
+    player = new StereoSoundPlayer();
 
     storage = new SoundStorage();
     storage.getSoundPath('assets/scream.mp3').then((value){
       short = new Clip(start : 736, finish : 2300, soundPath: value);
       middle = new Clip(start : 3381, finish : 4685, soundPath: value);
-      long = new Clip(start : 5458, finish : 7079, soundPath: value);
+      long = new Clip(start : 5458, finish : 7070, soundPath: value);
       setState(() {
+        soundpath = value;
         isLoaded = true;
         print('Clips are loaded');
       });
@@ -52,9 +55,27 @@ class MainScreenState extends State<StatefulWidget>{
   }
 
   Widget getBody(){
-    return new RaisedButton(
-            onPressed: () => isLoaded ? player.playClip(short) : null,
-            child: new Text('Play A'));
+
+    return new Column(children: <Widget>[
+
+      new RaisedButton(
+        onPressed: () => isLoaded ? player.playClip(short) : null,
+        child: new Text('Play AA')),
+
+      new RaisedButton(
+        onPressed: () => isLoaded ? player.playClip(middle) : null,
+        child: new Text('Play AAA')),
+
+      new RaisedButton(
+        onPressed: () => isLoaded ? player.playClip(long) : null,
+        child: new Text('Play AAAA')),
+
+      new RaisedButton(
+        onPressed: () => isLoaded ? player.play(soundpath) : null,
+        child: new Text('Play all')),
+
+    ]);
+
   }
 
 
