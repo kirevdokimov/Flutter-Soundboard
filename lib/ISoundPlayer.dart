@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'Clip.dart';
+import 'package:flutter_soundboard/Deprecated/Clip.dart';
 
 // There is no interface keyword in Dart 2.
 abstract class ISoundPlayer {

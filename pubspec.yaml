@@ -19,6 +19,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/short.wav
-    - assets/middle.wav
-    - assets/long.wav
+    - assets/sounds/short.wav
+    - assets/sounds/middle.wav
+    - assets/sounds/long.wav
+
+    - assets/images/short.png
+    - assets/images/middle.png
+    - assets/images/long.png

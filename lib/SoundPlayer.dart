@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_soundboard/Clip.dart';
+import 'package:flutter_soundboard/Deprecated/Clip.dart';
 import 'package:flutter_soundboard/ISoundPlayer.dart';
 
 import 'package:audioplayer/audioplayer.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:stereo/stereo.dart';
 
-import 'package:flutter_soundboard/Clip.dart';
+import 'package:flutter_soundboard/Deprecated/Clip.dart';
 import 'package:flutter_soundboard/ISoundPlayer.dart';
 
 class StereoSoundPlayer extends ISoundPlayer{
