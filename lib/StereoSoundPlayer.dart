@@ -1,10 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-
-import 'package:path_provider/path_provider.dart';
 import 'package:stereo/stereo.dart';
 
 import 'package:flutter_soundboard/Clip.dart';
@@ -34,18 +28,28 @@ class StereoSoundPlayer extends ISoundPlayer{
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    _stereo.stop();
   }
 
   @override
-  Future play(String assetPath) async {
-    await _stereo.load(assetPath);
+  Future play(String filePath) async {
+    await _stereo.load(filePath);
     await _stereo.play();
   }
 
   @override
-  Future playClip(Clip clip) {
-    // TODO: implement playClip
+  Future playClip(Clip clip) async{
+    await _stereo.load(clip.soundPath);
+    await _stereo.play();
+    await _stereo.seek(new Duration(milliseconds: clip.start));
+    print('Start : ${clip.start}');
+    _stereo.positionHandler = (){
+      print('Position : ${_stereo.position.inMilliseconds}');
+      if(_stereo.position.inMilliseconds >= clip.finish){
+        _stereo.stop();
+        print('Finish : ${clip.finish}');
+      }
+    };
   }
 
 }
