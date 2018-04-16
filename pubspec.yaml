@@ -19,4 +19,6 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/scream.mp3
+    - assets/short.wav
+    - assets/middle.wav
+    - assets/long.wav

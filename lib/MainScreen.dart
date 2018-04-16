@@ -13,32 +13,45 @@ class MainScreen extends StatefulWidget{
 
 class MainScreenState extends State<StatefulWidget>{
 
-  Clip short,middle,long;
+  String short,middle,long;
 
-  bool isLoaded;
+  int loaded;
 
   ISoundPlayer player;
   SoundStorage storage;
-  String soundpath;
 
   @override
   void initState() {
     super.initState();
-    isLoaded = false;
-    player = new StereoSoundPlayer();
+    loaded = 0;
+    player = new SoundPlayer();
 
     storage = new SoundStorage();
-    storage.getSoundPath('assets/scream.mp3').then((value){
-      short = new Clip(start : 736, finish : 2300, soundPath: value);
-      middle = new Clip(start : 3381, finish : 4685, soundPath: value);
-      long = new Clip(start : 5458, finish : 7070, soundPath: value);
+    storage.getSoundPath('assets/short.wav').then((value){
+      short = value;
       setState(() {
-        soundpath = value;
-        isLoaded = true;
-        print('Clips are loaded');
+        loaded++;
+        if(isLoaded) print('Clips are loaded');
+      });
+    });
+
+    storage.getSoundPath('assets/middle.wav').then((value){
+      middle = value;
+      setState(() {
+        loaded++;
+        if(isLoaded) print('Clips are loaded');
+      });
+    });
+    storage.getSoundPath('assets/long.wav').then((value){
+      long = value;
+      setState(() {
+        loaded++;
+        if(isLoaded) print('Clips are loaded');
       });
     });
   }
+
+  get isLoaded{ return loaded >=3; }
 
   @override
   Widget build(BuildContext context) {
@@ -59,20 +72,16 @@ class MainScreenState extends State<StatefulWidget>{
     return new Column(children: <Widget>[
 
       new RaisedButton(
-        onPressed: () => isLoaded ? player.playClip(short) : null,
+        onPressed: () => isLoaded ? player.play(short) : null,
         child: new Text('Play AA')),
 
       new RaisedButton(
-        onPressed: () => isLoaded ? player.playClip(middle) : null,
+        onPressed: () => isLoaded ? player.play(middle) : null,
         child: new Text('Play AAA')),
 
       new RaisedButton(
-        onPressed: () => isLoaded ? player.playClip(long) : null,
+        onPressed: () => isLoaded ? player.play(long) : null,
         child: new Text('Play AAAA')),
-
-      new RaisedButton(
-        onPressed: () => isLoaded ? player.play(soundpath) : null,
-        child: new Text('Play all')),
 
     ]);
 

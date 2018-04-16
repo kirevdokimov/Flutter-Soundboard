@@ -33,6 +33,7 @@ class StereoSoundPlayer extends ISoundPlayer{
 
   @override
   Future play(String filePath) async {
+    await _stereo.stop();
     await _stereo.load(filePath);
     await _stereo.play();
   }
