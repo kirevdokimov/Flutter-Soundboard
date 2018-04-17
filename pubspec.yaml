@@ -9,7 +9,6 @@ dependencies:
   shared_preferences:
   audioplayer:
   path_provider:
-  stereo:
 
 dev_dependencies:
   flutter_test:

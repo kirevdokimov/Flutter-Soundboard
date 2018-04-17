@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_soundboard/ISoundPlayer.dart';
 import 'package:flutter_soundboard/SoundPlayer.dart';
 import 'package:flutter_soundboard/SoundStorage.dart';
 
@@ -11,7 +10,7 @@ class MainScreen extends StatefulWidget{
 
 class MainScreenState extends State<StatefulWidget>{
 
-  ISoundPlayer player;
+  SoundPlayer player;
 
   List<String> soundFilePath;
 
